@@ -1,0 +1,50 @@
+package aaa;
+abstract class Book {
+    protected String title;
+    protected double price;
+
+    public Book(String title, double price) {
+        this.title = title;
+        this.price = price;
+    }
+    public abstract void displayDetails();
+    public double getPrice() { return price; }
+}
+class EBook extends Book {
+    private double fileSize;
+    public EBook(String title, double price, double fileSize) {
+        super(title, price);
+        this.fileSize = fileSize;
+    }
+    @Override
+    public void displayDetails() {
+        System.out.println("EBook: " + title + " | Price: " + price + " | Size: " + fileSize + "MB");
+    }
+}
+class PrintedBook extends Book {
+    private int pages;
+
+    public PrintedBook(String title, double price, int pages) {
+        super(title, price);
+        this.pages = pages;
+    }
+    @Override
+    public void displayDetails() {
+        System.out.println("PrintedBook: " + title + " | Price: " + price + " | Pages: " + pages);
+    }
+}
+class Customer {
+    private String name;
+    public Customer(String name) { this.name = name; }
+    public String getName() { return name; }
+}
+public class mod1 {
+    public static void main(String[] args) {
+        Book b1 = new EBook("Java Basics", 299.0, 5.6);
+        Book b2 = new PrintedBook("OOP Concepts", 499.0, 320);
+        b1.displayDetails();
+        b2.displayDetails();
+        Customer c1 = new Customer("Alice");
+        System.out.println("Customer: " + c1.getName());
+    }
+}
