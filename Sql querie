@@ -1,0 +1,79 @@
+-- Create Database
+CREATE DATABASE bookstoredb;
+USE bookstoredb;
+
+-- 1️⃣ Create Table for Books
+CREATE TABLE books (
+    book_id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(100),
+    author VARCHAR(50),
+    price DECIMAL(10,2),
+    stock INT
+);
+
+-- 2️⃣ Create Table for Customers
+CREATE TABLE customers (
+    customer_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50),
+    email VARCHAR(100),
+    phone VARCHAR(15)
+);
+
+-- 3️⃣ Create Table for Orders
+CREATE TABLE orders (
+    order_id INT AUTO_INCREMENT PRIMARY KEY,
+    customer_id INT,
+    order_date DATE,
+    total_amount DECIMAL(10,2),
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+);
+
+-- 4️⃣ Create Table for Order Items (Each book in an order)
+CREATE TABLE order_items (
+    item_id INT AUTO_INCREMENT PRIMARY KEY,
+    order_id INT,
+    book_id INT,
+    quantity INT,
+    price DECIMAL(10,2),
+    FOREIGN KEY (order_id) REFERENCES orders(order_id),
+    FOREIGN KEY (book_id) REFERENCES books(book_id)
+);
+
+-- 5️⃣ Insert Sample Data
+INSERT INTO books (title, author, price, stock) VALUES
+('Java Programming', 'James Gosling', 499.00, 50),
+('Python Essentials', 'Guido van Rossum', 399.00, 60),
+('C++ Concepts', 'Bjarne Stroustrup', 450.00, 40);
+
+INSERT INTO customers (name, email, phone) VALUES
+('Alice Johnson', 'alice@gmail.com', '9876543210'),
+('Bob Williams', 'bob@gmail.com', '9123456780'),
+('Charlie Brown', 'charlie@gmail.com', '9988776655');
+
+-- 6️⃣ Example Updates
+UPDATE books SET stock = stock - 2 WHERE book_id = 1;
+
+-- 7️⃣ Example Selections
+SELECT * FROM books;
+SELECT name, email FROM customers;
+SELECT title, price FROM books WHERE price > 400;
+
+-- 8️⃣ Example Order Insertion
+INSERT INTO orders (customer_id, order_date, total_amount) 
+VALUES (1, CURDATE(), 998.00);
+
+INSERT INTO order_items (order_id, book_id, quantity, price)
+VALUES (1, 1, 2, 499.00);
+
+-- 9️⃣ View Orders
+SELECT o.order_id, c.name AS customer, b.title, oi.quantity, oi.price
+FROM orders o
+JOIN customers c ON o.customer_id = c.customer_id
+JOIN order_items oi ON o.order_id = oi.order_id
+JOIN books b ON oi.book_id = b.book_id;
+
+-- 🔟 Reset Stock Example (like votes reset in your query)
+UPDATE books SET stock = 0;
+
+-- View Final Book Table
+SELECT * FROM books;
