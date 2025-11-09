@@ -1,0 +1,17 @@
+package aaa;
+/*
+import java.sql.*;
+public class mod4_db {
+    public static void main(String[] args) {
+        try {
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bookstore","root","password");
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM books");
+            while(rs.next()) {
+                System.out.println(rs.getString("title") + " - ₹" + rs.getDouble("price"));
+            }
+            con.close();
+        } catch(Exception e) { e.printStackTrace(); }
+    }
+}
+*/
