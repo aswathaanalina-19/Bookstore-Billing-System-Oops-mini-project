@@ -1,0 +1,36 @@
+package aaa;
+import javax.swing.*;
+import java.awt.event.*;
+
+public class mod5 {
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Bookstore Billing");
+        JLabel l1 = new JLabel("Book Name:");
+        JTextField t1 = new JTextField(15);
+        JLabel l2 = new JLabel("Quantity:");
+        JTextField t2 = new JTextField(5);
+        JButton btn = new JButton("Generate Bill");
+        JTextArea area = new JTextArea(5, 20);
+
+        JPanel panel = new JPanel();
+        panel.add(l1); panel.add(t1);
+        panel.add(l2); panel.add(t2);
+        panel.add(btn);
+        panel.add(new JScrollPane(area));
+
+        btn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String book = t1.getText();
+                int qty = Integer.parseInt(t2.getText());
+                double price = 200; // dummy price
+                double total = qty * price;
+                area.setText("Book: " + book + "\nQuantity: " + qty + "\nTotal: ₹" + total);
+            }
+        });
+
+        frame.add(panel);
+        frame.setSize(350, 300);
+        frame.setVisible(true);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+}
