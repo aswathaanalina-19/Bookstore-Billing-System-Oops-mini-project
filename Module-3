@@ -1,0 +1,39 @@
+package aaa;
+import java.util.*;
+
+class GenericInventory<T> {
+    private List<T> items = new ArrayList<>();
+
+    public synchronized void addItem(T item) {
+        items.add(item);
+        System.out.println("Added item: " + item);
+    }
+
+    public synchronized List<T> getItems() {
+        return items;
+    }
+}
+
+class InventoryUpdater extends Thread {
+    private GenericInventory<String> inventory;
+    private String item;
+
+    public InventoryUpdater(GenericInventory<String> inv, String item) {
+        this.inventory = inv;
+        this.item = item;
+    }
+
+    public void run() {
+        inventory.addItem(item);
+    }
+}
+
+public class mod3 {
+    public static void main(String[] args) {
+        GenericInventory<String> inv = new GenericInventory<>();
+        Thread t1 = new InventoryUpdater(inv, "Java Book");
+        Thread t2 = new InventoryUpdater(inv, "Python Book");
+        t1.start();
+        t2.start();
+    }
+}
