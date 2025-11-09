@@ -1,0 +1,44 @@
+package aaa;
+import java.io.*;
+
+class OutOfStockException extends Exception {
+    public OutOfStockException(String msg) { super(msg); }
+}
+
+class Order {
+    private Book book;
+    private int qty;
+
+    public Order(Book book, int qty) {
+        this.book = book;
+        this.qty = qty;
+    }
+
+    public double calculateBill() throws OutOfStockException {
+        if (qty <= 0) throw new OutOfStockException("Quantity not valid!");
+        return book.getPrice() * qty;
+    }
+
+    public void saveBillToFile(double total) {
+        try (FileWriter fw = new FileWriter("bill.txt")) {
+            fw.write("Book: " + book.title + "\nQuantity: " + qty + "\nTotal: ₹" + total);
+            System.out.println("Bill saved to bill.txt");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+public class mod2 {
+    public static void main(String[] args) {
+        try {
+            PrintedBook b = new PrintedBook("OOP Concepts", 499.0, 320);
+            Order o = new Order(b, 2);
+            double total = o.calculateBill();
+            System.out.println("Bill: ₹" + total);
+            o.saveBillToFile(total);
+        } catch (OutOfStockException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+}
